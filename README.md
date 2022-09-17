@@ -32,5 +32,5 @@ https://api.nhk.or.jp/v2/pg/list/{area}/{service}/{date}.json?key={apikey}
 | apikey     | 〇 | APIキー(32byte)。| _ENTER_YOUR_KEY_ |
 
 ### Error
-Program List APIは番組表APIに共通の[エラーメッセージおよびコード](https://github.com/Masaki0625/Get_NHK_ProgramMSRepo/blob/main/Doc/ExplainDocumentRequest.md#%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8)を返します。  
+Program List APIは番組表APIに共通の[エラーメッセージおよびコード]([https://github.com/Masaki0625/Get_NHK_ProgramMSRepo/blob/main/Doc/ExplainDocumentRequest.md#%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8](https://github.com/Masaki0625/Get_NHK_ProgramMS-Repo/blob/main/Doc/ExplainDocumentRequest.md#%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8))を返します。  
 </details>
