@@ -18,6 +18,9 @@ public class RequestBodyEntity {
 	@HeaderParam("apikey")
 	private String apikey;
 	
+	@HeaderParam("genre")
+	private String genre;
+	
 	public void setarea(String area) {
 		this.area = area;
 	}
@@ -50,4 +53,11 @@ public class RequestBodyEntity {
 		return this.apikey;
 	}
 
+	public void setgenre(String genre) {
+		this.genre = genre;
+	}
+	
+	public String getgenre() {
+		return this.genre;
+	}
 }

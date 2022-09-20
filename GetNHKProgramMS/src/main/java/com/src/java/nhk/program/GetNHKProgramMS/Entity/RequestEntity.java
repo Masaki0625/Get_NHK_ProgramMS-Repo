@@ -13,6 +13,8 @@ public class RequestEntity {
 	
 	private String apikey;
 	
+	private String genre;
+	
 	public String getarea() {
 		return area;
 	}
@@ -43,5 +45,13 @@ public class RequestEntity {
 	
 	public void setapikey(String apikey) {
 		this.apikey = apikey;
+	}
+	
+	public String getgenre() {
+		return genre;
+	}
+	
+	public void setgenre(String genre) {
+		this.genre = genre;
 	}
 }

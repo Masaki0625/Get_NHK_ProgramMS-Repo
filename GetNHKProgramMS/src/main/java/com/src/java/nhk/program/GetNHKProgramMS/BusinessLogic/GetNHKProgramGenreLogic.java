@@ -1,14 +1,5 @@
 package com.src.java.nhk.program.GetNHKProgramMS.BusinessLogic;
 
-import org.apache.logging.log4j.Logger;
-
-import com.src.java.nhk.program.GetNHKProgramMS.Entity.RequestBodyEntity;
-import com.src.java.nhk.program.GetNHKProgramMS.Entity.RequestEntity;
-import com.src.java.nhk.program.GetNHKProgramMS.Entity.ResponseEntity;
-import com.src.java.nhk.program.GetNHKProgramMS.ResponseContent.ResponseCommon;
-import com.src.java.nhk.program.GetNHKProgramMS.ResponseContent.ResponseDetails;
-import com.src.java.nhk.program.GetNHKProgramMS.Util.StringUtil;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -26,13 +17,20 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.core.Response;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.apache.logging.log4j.LogManager;
+import com.src.java.nhk.program.GetNHKProgramMS.Entity.RequestBodyEntity;
+import com.src.java.nhk.program.GetNHKProgramMS.Entity.RequestEntity;
+import com.src.java.nhk.program.GetNHKProgramMS.Entity.ResponseEntity;
+import com.src.java.nhk.program.GetNHKProgramMS.ResponseContent.ResponseCommon;
+import com.src.java.nhk.program.GetNHKProgramMS.ResponseContent.ResponseDetails;
+import com.src.java.nhk.program.GetNHKProgramMS.Util.StringUtil;
 
 @RequestScoped
-public class GetNHKProgramLogic {
+public class GetNHKProgramGenreLogic {
 	
 	StringUtil stringUtil = new StringUtil();
 	
@@ -47,8 +45,8 @@ public class GetNHKProgramLogic {
 	private static Logger log;
 	
 	//コンストラクタ
-	public GetNHKProgramLogic() {
-		log = LogManager.getLogger(GetNHKProgramLogic.this);
+	public GetNHKProgramGenreLogic() {
+		log = LogManager.getLogger(GetNHKProgramGenreLogic.this);
 	}
 
 	public Response ServiceResponse(ResponseCommon responseCommon) {
@@ -69,12 +67,12 @@ public class GetNHKProgramLogic {
 			log.info("Success Execute CheckRequestBody Method");
 		}
 		
-		response = GetNHKProgram(requestEntity, requestBodyEntity);
+		response = GetNHKGenre(requestEntity, requestBodyEntity);
 		if(response.getStatus() != Response.Status.OK.getStatusCode()) {
-			log.info("Failed Execute GetNHKProgram Method");
+			log.info("Failed Execute GetNHKGenre Method");
 			return response;
 		}else {
-			log.info("Success Execute GetNHKProgram Method");
+			log.info("Success Execute GetNHKGenre Method");
 		}
 		
 		responseDetails.setStatus(responseCommon.getResponseStatus());
@@ -93,7 +91,7 @@ public class GetNHKProgramLogic {
 	 * 実行失敗：400 BAD_REQUEST
 	 * 
 	 * 説明
-	 * 入力パラメータのnullチェック。
+	 * 入力パラメータのnullチェック
 	 */
 	private Response CheckRequestBody(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
 		long startTime = System.currentTimeMillis();
@@ -101,6 +99,7 @@ public class GetNHKProgramLogic {
 		if(stringUtil.isNullorEmpty(requestBodyEntity.getarea()) ||
 		   stringUtil.isNullorEmpty(requestBodyEntity.getdate()) ||
 		   stringUtil.isNullorEmpty(requestBodyEntity.getservice()) ||
+		   stringUtil.isNullorEmpty(requestBodyEntity.getgenre()) ||
 		   stringUtil.isNullorEmpty(requestBodyEntity.getapikey())) {
 			return ServiceResponse(ResponseCommon.E400);
 		}else {
@@ -118,18 +117,18 @@ public class GetNHKProgramLogic {
 	 * @param requestBodyEntity：入力オブジェクトの格納用
 	 * @return
 	 * 実行成功：200 OK
-	 * 実行失敗：500 INTERNAL_SERVER_ERROR
+	 * 実行失敗：500 INTERNA+_SERVER_ERROR
 	 * 
-	 * 説明
-	 * NHKの番組表取得APIへ接続し入力されたJSONパラメータ値をリクエストURLの各値へ代入し、リクエスト。
-	 * レスポンスオブジェクトでJSONレスポンスの「list」を全数取得し、リクエスト元へ返却。
+	 *  説明
+	 *  NHKの番組ジャンル取得APIへ接続し入力されたJSONパラメータ値をリクエストURLの各値へ代入し、リクエスト。
+	 *  レスポンスオブジェクトでJSONレスポンスの「list」を全数取得し、リクエスト元へ返却。
 	 */
-	private Response GetNHKProgram(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
+	private Response GetNHKGenre(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
 		long startTime = System.currentTimeMillis();
 		
 		try {
-			URL connectUrl = new URL("https://api.nhk.or.jp/v2/pg/list/" + requestBodyEntity.getarea() + "/" + requestBodyEntity.getservice() + "/" + requestBodyEntity.getdate() + ".json?key=" + requestBodyEntity.getapikey());
-
+			URL connectUrl = new URL("https://api.nhk.or.jp/v2/pg/genre/" + requestBodyEntity.getarea() + "/" + requestBodyEntity.getservice() + "/" + requestBodyEntity.getgenre() + "/" + requestBodyEntity.getdate() + ".json?key=" + requestBodyEntity.getapikey());
+			
 			HttpsURLConnection httpsURLConnection = (HttpsURLConnection) connectUrl.openConnection();
 			httpsURLConnection.setRequestMethod("GET");
 			httpsURLConnection.setDoInput(true);
