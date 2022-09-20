@@ -11,12 +11,23 @@ NHKの番組表取得MSでは、NHK番組表取得APIをCallするマイクロ�
 | MS名 | URL | リクエスト形式 | リクエストメソッド | リクエストボディ | レスポンスボディ | レスポンスステータス |
 |:-----------:|:------------:|:------------:|:------------:|:------------:|:------------:|:------------:|
 | 番組表取得MS | http://localhost:9080/GetNHKProgramMS/nhkprogram | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
+| 番組ジャンル取得MS | http://localhost:9080/GetNHKProgramMS/nhkprogramgenre | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
 
 番組表取得MSリクエストボディ  
 ```
 {
     "area": "011",
     "service": "e4",
+    "date": "2022-09-18",
+    "apikey": "YOUR_TOKEN"
+}
+```
+番組ジャンル取得MSリクエストボディ  
+```
+{
+    "area": "011",
+    "service": "e4",
+    "genre": "0000",
     "date": "2022-09-18",
     "apikey": "YOUR_TOKEN"
 }
