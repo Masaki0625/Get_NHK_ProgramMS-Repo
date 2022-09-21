@@ -36,10 +36,6 @@ public class GetNHKProgramLogic {
 	
 	StringUtil stringUtil = new StringUtil();
 	
-	RequestEntity requestEntity = new RequestEntity();
-	
-	RequestBodyEntity requestBodyEntity = new RequestBodyEntity();
-	
 	ResponseDetails responseDetails = new ResponseDetails();
 	
 	ResponseEntity responseEntity = new ResponseEntity();

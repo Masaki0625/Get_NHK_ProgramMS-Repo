@@ -30,7 +30,7 @@ import com.src.java.nhk.program.GetNHKProgramMS.ResponseContent.ResponseDetails;
 import com.src.java.nhk.program.GetNHKProgramMS.Util.StringUtil;
 
 @RequestScoped
-public class GetNHKProgramGenreLogic {
+public class GetNHKProgramInfoLogic {
 	
 	StringUtil stringUtil = new StringUtil();
 	
@@ -41,10 +41,10 @@ public class GetNHKProgramGenreLogic {
 	private static Logger log;
 	
 	//コンストラクタ
-	public GetNHKProgramGenreLogic() {
-		log = LogManager.getLogger(GetNHKProgramGenreLogic.this);
+	public GetNHKProgramInfoLogic() {
+		log = LogManager.getLogger(GetNHKProgramInfoLogic.this);
 	}
-
+	
 	public Response ServiceResponse(ResponseCommon responseCommon) {
 		responseDetails.setStatus(responseCommon.getResponseStatus());
 		responseDetails.setMessage(responseCommon.getResponseMessage());
@@ -63,12 +63,12 @@ public class GetNHKProgramGenreLogic {
 			log.info("Success Execute CheckRequestBody Method");
 		}
 		
-		response = GetNHKGenre(requestEntity, requestBodyEntity);
+		response = GetNHKInfo(requestEntity, requestBodyEntity);
 		if(response.getStatus() != Response.Status.OK.getStatusCode()) {
-			log.info("Failed Execute GetNHKGenre Method");
+			log.info("Failed Execute GetNHKInfo Method");
 			return response;
 		}else {
-			log.info("Success Execute GetNHKGenre Method");
+			log.info("Success Execute GetNHKInfo Method");
 		}
 		
 		responseDetails.setStatus(responseCommon.getResponseStatus());
@@ -93,9 +93,8 @@ public class GetNHKProgramGenreLogic {
 		long startTime = System.currentTimeMillis();
 		
 		if(stringUtil.isNullorEmpty(requestBodyEntity.getarea()) ||
-		   stringUtil.isNullorEmpty(requestBodyEntity.getdate()) ||
+		   stringUtil.isNullorEmpty(requestBodyEntity.getid()) ||
 		   stringUtil.isNullorEmpty(requestBodyEntity.getservice()) ||
-		   stringUtil.isNullorEmpty(requestBodyEntity.getgenre()) ||
 		   stringUtil.isNullorEmpty(requestBodyEntity.getapikey())) {
 		   return ServiceResponse(ResponseCommon.E400);
 		}else {
@@ -119,11 +118,11 @@ public class GetNHKProgramGenreLogic {
 	 *  NHKの番組ジャンル取得APIへ接続し入力されたJSONパラメータ値をリクエストURLの各値へ代入し、リクエスト。
 	 *  レスポンスオブジェクトでJSONレスポンスの「list」を全数取得し、リクエスト元へ返却。
 	 */
-	private Response GetNHKGenre(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
+	private Response GetNHKInfo(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
 		long startTime = System.currentTimeMillis();
 		
 		try {
-			URL connectUrl = new URL("https://api.nhk.or.jp/v2/pg/genre/" + requestBodyEntity.getarea() + "/" + requestBodyEntity.getservice() + "/" + requestBodyEntity.getgenre() + "/" + requestBodyEntity.getdate() + ".json?key=" + requestBodyEntity.getapikey());
+			URL connectUrl = new URL("https://api.nhk.or.jp/v2/pg/info/" + requestBodyEntity.getarea() + "/" + requestBodyEntity.getservice() + "/" + requestBodyEntity.getid() + ".json?key=" + requestBodyEntity.getapikey());
 			
 			HttpsURLConnection httpsURLConnection = (HttpsURLConnection) connectUrl.openConnection();
 			httpsURLConnection.setRequestMethod("GET");

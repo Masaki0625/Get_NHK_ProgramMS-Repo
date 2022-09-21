@@ -10,7 +10,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.src.java.nhk.program.GetNHKProgramMS.BusinessLogic.GetNHKProgramGenreLogic;
+import com.src.java.nhk.program.GetNHKProgramMS.BusinessLogic.GetNHKProgramInfoLogic;
 import com.src.java.nhk.program.GetNHKProgramMS.BusinessLogic.GetNHKProgramLogic;
+import com.src.java.nhk.program.GetNHKProgramMS.BusinessLogic.GetNHKProgramNowOnAirLogic;
 import com.src.java.nhk.program.GetNHKProgramMS.Entity.RequestBodyEntity;
 import com.src.java.nhk.program.GetNHKProgramMS.Entity.RequestEntity;
 
@@ -24,16 +26,32 @@ public class Resource {
 	
 	GetNHKProgramGenreLogic getNHKProgramGenreLogic = new GetNHKProgramGenreLogic();
 	
+	GetNHKProgramInfoLogic getNHKProgramInfoLogic = new GetNHKProgramInfoLogic();
+	
+	GetNHKProgramNowOnAirLogic getNHKProgramNowOnAirLogic = new GetNHKProgramNowOnAirLogic();
+	
 	@POST
-	@Path("/nhkprogram")
+	@Path("/nhk/program")
 	public Response GetNHKProgram(@BeanParam RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
 		return getNHKProgramLogic.Service(requestEntity, requestBodyEntity);
 	}
 	
 	@POST
-	@Path("nhkprogramgenre")
+	@Path("/nhk/program/genre")
 	public Response GetNHKGenre(@BeanParam RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
 		return getNHKProgramGenreLogic.Service(requestEntity, requestBodyEntity);
+	}
+	
+	@POST
+	@Path("/nhk/program/info")
+	public Response GetNHKInfo(@BeanParam RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
+		return getNHKProgramInfoLogic.Service(requestEntity, requestBodyEntity);
+	}
+	
+	@POST
+	@Path("/nhk/program/onair")
+	public Response GetNHKNowOnAir(@BeanParam RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
+		return getNHKProgramNowOnAirLogic.Service(requestEntity, requestBodyEntity);
 	}
 
 }

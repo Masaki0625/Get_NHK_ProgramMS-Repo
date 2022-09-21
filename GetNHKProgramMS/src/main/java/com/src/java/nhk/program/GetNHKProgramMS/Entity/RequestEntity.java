@@ -15,6 +15,8 @@ public class RequestEntity {
 	
 	private String genre;
 	
+	private String id;
+	
 	public String getarea() {
 		return area;
 	}
@@ -53,5 +55,13 @@ public class RequestEntity {
 	
 	public void setgenre(String genre) {
 		this.genre = genre;
+	}
+	
+	public String getid() {
+		return id;
+	}
+	
+	public void setid(String id) {
+		this.id = id;
 	}
 }

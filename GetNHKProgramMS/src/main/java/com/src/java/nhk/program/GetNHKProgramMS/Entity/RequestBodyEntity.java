@@ -21,6 +21,9 @@ public class RequestBodyEntity {
 	@HeaderParam("genre")
 	private String genre;
 	
+	@HeaderParam("id")
+	private String id;
+	
 	public void setarea(String area) {
 		this.area = area;
 	}
@@ -59,5 +62,13 @@ public class RequestBodyEntity {
 	
 	public String getgenre() {
 		return this.genre;
+	}
+	
+	public void setid(String id) {
+		this.id = id;
+	}
+	
+	public String getid() {
+		return this.id;
 	}
 }

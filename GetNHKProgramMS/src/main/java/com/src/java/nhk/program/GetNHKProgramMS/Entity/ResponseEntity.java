@@ -6,4 +6,7 @@ public class ResponseEntity {
 	
 	@JsonProperty("list")
 	public Object list;
+	
+	@JsonProperty("nowonair_list")
+	public Object nowonair_list;
 }
