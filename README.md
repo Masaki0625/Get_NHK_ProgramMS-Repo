@@ -2037,6 +2037,129 @@ NowOnAir取得MS
 ```
 </details>
 
+NoOnAirMSレスポンスボディ  
+<details><summary>レスポンスボディ</summary>
+
+```
+{
+    "status": "200",
+    "message": "OK",
+    "time": "2022-09-21T16:59:59.601",
+    "successAPIResponse": {
+        "e4": {
+            "previous": {
+                "id": "2022092117413",
+                "event_id": "17413",
+                "start_time": "2022-09-21T16:40:00+09:00",
+                "end_time": "2022-09-21T16:50:00+09:00",
+                "area": {
+                    "id": "011",
+                    "name": "函館"
+                },
+                "service": {
+                    "id": "e4",
+                    "name": "ＮＨＫワンセグ２",
+                    "logo_s": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-100x50.png",
+                        "width": "100",
+                        "height": "50"
+                    },
+                    "logo_m": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x100.png",
+                        "width": "200",
+                        "height": "100"
+                    },
+                    "logo_l": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x200.png",
+                        "width": "200",
+                        "height": "200"
+                    }
+                },
+                "title": "カガクノミカタ「マネしてみる」",
+                "subtitle": "小中学生を主な対象とした理科教育番組。科学の「見方（ミカタ）」を持つことで、見慣れた事象の中にも実は潜んでいる、たくさんの「ふしぎ」が見つかることを伝える。",
+                "genres": [
+                    "1008",
+                    "1009",
+                    "0802"
+                ]
+            },
+            "present": {
+                "id": "2022092117414",
+                "event_id": "17414",
+                "start_time": "2022-09-21T16:50:00+09:00",
+                "end_time": "2022-09-21T17:00:00+09:00",
+                "area": {
+                    "id": "011",
+                    "name": "函館"
+                },
+                "service": {
+                    "id": "e4",
+                    "name": "ＮＨＫワンセグ２",
+                    "logo_s": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-100x50.png",
+                        "width": "100",
+                        "height": "50"
+                    },
+                    "logo_m": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x100.png",
+                        "width": "200",
+                        "height": "100"
+                    },
+                    "logo_l": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x200.png",
+                        "width": "200",
+                        "height": "200"
+                    }
+                },
+                "title": "考えるカラス～科学の考え方～（１９）",
+                "subtitle": "小学校高学年～中学生を主な対象とした新しい科学教育番組。科学の知識ではなく、「考え方」を、歌やアニメーション、実験映像などさまざまなコーナーを通して伝える。",
+                "genres": [
+                    "1008",
+                    "1009",
+                    "0803"
+                ]
+            },
+            "following": {
+                "id": "2022092117415",
+                "event_id": "17415",
+                "start_time": "2022-09-21T17:00:00+09:00",
+                "end_time": "2022-09-21T17:10:00+09:00",
+                "area": {
+                    "id": "011",
+                    "name": "函館"
+                },
+                "service": {
+                    "id": "e4",
+                    "name": "ＮＨＫワンセグ２",
+                    "logo_s": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-100x50.png",
+                        "width": "100",
+                        "height": "50"
+                    },
+                    "logo_m": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x100.png",
+                        "width": "200",
+                        "height": "100"
+                    },
+                    "logo_l": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x200.png",
+                        "width": "200",
+                        "height": "200"
+                    }
+                },
+                "title": "アニメ　おじゃる丸「いまだふりむけオジャフェウス」",
+                "subtitle": "千年前のヘイアンチョウから月光町にやってきたおじゃる丸が、小学生のカズマや町の人々、あとを追ってきた子鬼（おに）たちとゆかいな騒動（そうどう）をまきおこします。",
+                "genres": [
+                    "0700",
+                    "1008"
+                ]
+            }
+        }
+    }
+}
+```
+</details>
+
 レスポンスステータスコード  
 | HTTP Status Code | Code Details | 説明 |
 |:-----------|:------------:|:------------:|
