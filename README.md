@@ -10,9 +10,9 @@ NHKの番組表取得MSでは、NHK番組表取得APIをCallするマイクロ�
 ## インタフェース定義
 | MS名 | URL | リクエスト形式 | リクエストメソッド | リクエストボディ | レスポンスボディ | レスポンスステータス |
 |:-----------:|:------------:|:------------:|:------------:|:------------:|:------------:|:------------:|
-| 番組表取得MS | http://localhost:9080/GetNHKProgramMS/nhkprogram | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
-| 番組ジャンル取得MS | http://localhost:9080/GetNHKProgramMS/nhkprogramgenre | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
-| 番組情報取得MS | http://localhost:9080/GetNHKProgramMS/nhkprograminfo | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 | 
+| 番組表取得MS | http://localhost:9080/GetNHKProgramMS/nhk/program | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
+| 番組ジャンル取得MS | http://localhost:9080/GetNHKProgramMS/nhk/program/genre | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
+| 番組情報取得MS | http://localhost:9080/GetNHKProgramMS/nhk/program/info | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 | 
 
 番組表取得MSリクエストボディ  
 ```
