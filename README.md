@@ -13,6 +13,7 @@ NHKの番組表取得MSでは、NHK番組表取得APIをCallするマイクロ�
 | 番組表取得MS | http://localhost:9080/GetNHKProgramMS/nhk/program | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
 | 番組ジャンル取得MS | http://localhost:9080/GetNHKProgramMS/nhk/program/genre | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
 | 番組情報取得MS | http://localhost:9080/GetNHKProgramMS/nhk/program/info | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 | 
+| NowOnAir取得MS | http://localhost:9080/GetNHKProgramMS/nhk/program/onair | Application/JSON | POST | 別途記載 | 別途記載 | 別途記載 |
 
 番組表取得MSリクエストボディ  
 ```
@@ -39,6 +40,14 @@ NHKの番組表取得MSでは、NHK番組表取得APIをCallするマイクロ�
     "area": "011",
     "service": "e4",
     "id": "2022092117258",
+    "apikey": "YOUR_TOKEN"
+}
+```
+NowOnAir取得MS  
+```
+{
+    "area": "011",
+    "service": "e4",
     "apikey": "YOUR_TOKEN"
 }
 ```
@@ -2130,6 +2139,36 @@ https://api.nhk.or.jp/v2/pg/info/{area}/{service}/{id}.json?key={apikey}
 | area  | 〇 | 地域ID(3byte)。| [こちら](https://github.com/Masaki0625/Get_NHK_ProgramMS-Repo/blob/main/Doc/ExplainDocumentRequest.md#%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF)を参照 |
 | service | 〇 | サービスID(2byte)。| [こちら](https://github.com/Masaki0625/Get_NHK_ProgramMS-Repo/blob/main/Doc/ExplainDocumentRequest.md#%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF)を参照 |
 | id | 〇 | 「番組ID(13byte) Program List APIから取得できます。 | 2022092117256 |
+| apikey | 〇 | APIキー(32byte)。| _ENTER_YOUR_KEY_ |
+
+#### Error
+Program List APIは番組表APIに共通の[エラーメッセージおよびコード](https://github.com/Masaki0625/Get_NHK_ProgramMS-Repo/blob/main/Doc/ExplainDocumentRequest.md#%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8)を返します。  
+</details>
+
+<details><summary>Now OnAir API</summary>
+
+放送地域、サービス（放送波）を指定することで、現在放送している番組情報を取得することが可能です。
+#### Resource URL
+```
+https://api.nhk.or.jp/v2/pg/now/{area}/{service}.json?key={apikey}
+```
+#### Resource Information
+| 項目 | 説明 |
+|:-----------:|:------------:|
+| リクエスト制限 | なし |
+| 認証 | APIキーによる認証 |
+| HTTPメソッド | GET |
+| レスポンスフォーマット | json |
+| レスポンスオブジェクト | NowOnAirList |
+| APIバージョン | v2 |
+| 利用回数制限 | 1500回/日 |
+
+#### RequestParameters
+パラメータ名及びパラメータ値は大文字小文字を区別します。  
+| パラメータ | 必須 | 説明 | 値の例 |
+|:-----------:|:------------:|:------------:|:------------:|
+| area  | 〇 | 地域ID(3byte)。| [こちら](https://github.com/Masaki0625/Get_NHK_ProgramMS-Repo/blob/main/Doc/ExplainDocumentRequest.md#%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF)を参照 |
+| service | 〇 | サービスID(2byte)。| [こちら](https://github.com/Masaki0625/Get_NHK_ProgramMS-Repo/blob/main/Doc/ExplainDocumentRequest.md#%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF)を参照 |
 | apikey | 〇 | APIキー(32byte)。| _ENTER_YOUR_KEY_ |
 
 #### Error
