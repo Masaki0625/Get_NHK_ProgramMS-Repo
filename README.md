@@ -1974,6 +1974,60 @@ NHKの番組表取得MSでは、NHK番組表取得APIをCallするマイクロ�
 ```
 </details>
 
+番組情報取得MSレスポンスボディ  
+<details><summary>レスポンスボディ</summary>
+
+```
+{
+    "status": "200",
+    "message": "OK",
+    "time": "2022-09-21T10:53:13.544",
+    "successAPIResponse": {
+        "e4": [
+            {
+                "id": "2022092117344",
+                "event_id": "17344",
+                "start_time": "2022-09-21T01:24:00+09:00",
+                "end_time": "2022-09-21T05:30:00+09:00",
+                "area": {
+                    "id": "011",
+                    "name": "函館"
+                },
+                "service": {
+                    "id": "e4",
+                    "name": "ＮＨＫワンセグ２",
+                    "logo_s": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-100x50.png",
+                        "width": "100",
+                        "height": "50"
+                    },
+                    "logo_m": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x100.png",
+                        "width": "200",
+                        "height": "100"
+                    },
+                    "logo_l": {
+                        "url": "//www.nhk.or.jp/common/img/media/1seg2-200x200.png",
+                        "width": "200",
+                        "height": "200"
+                    }
+                },
+                "title": "放送休止",
+                "subtitle": "　",
+                "content": "　",
+                "act": "",
+                "genres": [
+                    "0015"
+                ],
+                "program_logo": null,
+                "hashtags": []
+            }
+        ]
+    }
+}
+```
+</details>
+
 レスポンスステータスコード  
 | HTTP Status Code | Code Details | 説明 |
 |:-----------|:------------:|:------------:|
