@@ -10,6 +10,8 @@ public class ResponseDetails {
 	
 	private Object successapiresponse;
 	
+	private Object errorapiresponse;
+	
 	public ResponseDetails() {
 		this.setStatus(new String());
 		this.setMessage(new String());
@@ -46,5 +48,13 @@ public class ResponseDetails {
 	
 	public void setSuccessAPIResponse(Object successapiresponse) {
 		this.successapiresponse = successapiresponse;
+	}
+	
+	public Object getErrorAPIResponse() {
+		return errorapiresponse;
+	}
+	
+	public void setErrorAPIResponse(Object errorapiresponse) {
+		this.errorapiresponse = errorapiresponse;
 	}
 }

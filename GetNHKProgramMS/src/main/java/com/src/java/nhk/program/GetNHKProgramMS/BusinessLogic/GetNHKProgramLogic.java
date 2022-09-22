@@ -16,6 +16,7 @@ import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 import javax.enterprise.context.RequestScoped;
 import javax.net.ssl.HostnameVerifier;
@@ -57,6 +58,8 @@ public class GetNHKProgramLogic {
 	public Response Service(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
 		ResponseCommon responseCommon = ResponseCommon.S200;
 		
+		StringBuilder apiKey = new StringBuilder();
+		
 		Response response = CheckRequestBody(requestEntity, requestBodyEntity);
 		if(response.getStatus() != Response.Status.OK.getStatusCode()) {
 			log.info("Failed Execute CheckRequestBody Method");
@@ -65,7 +68,9 @@ public class GetNHKProgramLogic {
 			log.info("Success Execute CheckRequestBody Method");
 		}
 		
-		response = GetNHKProgram(requestEntity, requestBodyEntity);
+		response = APIKeyDecoder(requestEntity, requestBodyEntity, apiKey);
+		
+		response = GetNHKProgram(requestEntity, requestBodyEntity, apiKey);
 		if(response.getStatus() != Response.Status.OK.getStatusCode()) {
 			log.info("Failed Execute GetNHKProgram Method");
 			return response;
@@ -112,6 +117,29 @@ public class GetNHKProgramLogic {
 	 * 
 	 * @param requestEntity：入力オブジェクトの格納用
 	 * @param requestBodyEntity：入力オブジェクトの格納用
+	 * @param apiKey：リクエストで受け付けたAPIKey
+	 * @return
+	 * 実行成功：200 OK
+	 * 
+	 * 説明
+	 * エンコードされたAPIKeyのデコード
+	 */
+	private Response APIKeyDecoder(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity, StringBuilder apiKey) {
+		long startTime = System.currentTimeMillis();
+		
+		String decodeAPIKey = new String(Base64.getDecoder().decode(requestBodyEntity.getapikey()));
+		
+		apiKey.append(decodeAPIKey);
+		
+		long endTime = System.currentTimeMillis();
+		log.info("Processing Time: " + (endTime - startTime) + " ms");
+		return Response.status(Response.Status.OK.getStatusCode()).entity(responseDetails).build();
+	}
+	
+	/**
+	 * 
+	 * @param requestEntity：入力オブジェクトの格納用
+	 * @param requestBodyEntity：入力オブジェクトの格納用
 	 * @return
 	 * 実行成功：200 OK
 	 * 実行失敗：500 INTERNAL_SERVER_ERROR
@@ -120,12 +148,11 @@ public class GetNHKProgramLogic {
 	 * NHKの番組表取得APIへ接続し入力されたJSONパラメータ値をリクエストURLの各値へ代入し、リクエスト。
 	 * レスポンスオブジェクトでJSONレスポンスの「list」を全数取得し、リクエスト元へ返却。
 	 */
-	private Response GetNHKProgram(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity) {
+	private Response GetNHKProgram(RequestEntity requestEntity, RequestBodyEntity requestBodyEntity, StringBuilder apiKey) {
 		long startTime = System.currentTimeMillis();
 		
 		try {
-			URL connectUrl = new URL("https://api.nhk.or.jp/v2/pg/list/" + requestBodyEntity.getarea() + "/" + requestBodyEntity.getservice() + "/" + requestBodyEntity.getdate() + ".json?key=" + requestBodyEntity.getapikey());
-
+			URL connectUrl = new URL("https://api.nhk.or.jp/v2/pg/list/" + requestBodyEntity.getarea() + "/" + requestBodyEntity.getservice() + "/" + requestBodyEntity.getdate() + ".json?key=" + apiKey.toString());
 			HttpsURLConnection httpsURLConnection = (HttpsURLConnection) connectUrl.openConnection();
 			httpsURLConnection.setRequestMethod("GET");
 			httpsURLConnection.setDoInput(true);
@@ -170,6 +197,64 @@ public class GetNHKProgramLogic {
             
             PrintStream printStream = new PrintStream(httpsURLConnection.getOutputStream());
     		printStream.close();
+
+    		//ベンダー提供APIレスポンスエラーハンドリング
+    		if(httpsURLConnection.getResponseCode() == 304) {
+    			/**
+    			 * 304 Not Modified アクセスされたリソースが更新されていない場合に返されます。
+    			 * ログレベル：info
+    			 */
+    			log.info("NHK HTTP Status Code 304 Not Modified: Accessed resource not updated");
+    			return ServiceResponse(ResponseCommon.E304);
+    		}else if(httpsURLConnection.getResponseCode() == 400) {
+    			/**
+    			 * 400 Bad Request パラメータがAPIで期待されたものと一致しない場合に返されます。
+    			 * ログレベル：info
+    			 */
+    			log.info("NHK HTTP Status Code 400 Bad Request: Parameters do not match what is expected by the API");
+    			return ServiceResponse(ResponseCommon.E400);
+    		}else if(httpsURLConnection.getResponseCode() == 401) {
+    			/**
+    			 * 401 Unauthorized 許可されていないアクセスであった場合に返されます。
+    			 * ログレベル：info
+    			 */
+    			log.info("NHK HTTP Status Code 401 Unauthorized: was unauthorized access");
+    			return ServiceResponse(ResponseCommon.E401);
+    		}else if(httpsURLConnection.getResponseCode() == 403) {
+    			/**
+    			 * 403 Forbidden リソースへのアクセスを許されていないか、利用制限を超えている場合に適用されます。
+    			 * ログレベル：info
+    			 */
+    			log.info("NHK HTTP Status Code 403 Forbidden: Not allowed to access resource or usage limit exceeded");
+    			return ServiceResponse(ResponseCommon.E403);
+    		}else if(httpsURLConnection.getResponseCode() == 404) {
+    			/**
+    			 * 404 Not Found 指定されたリソースが見つからない場合に返されます。
+    			 * ログレベル：info
+    			 */
+    			log.info("NHK HTTP Status Code 404 Not Found: Specified resource not found");
+    			return ServiceResponse(ResponseCommon.E404);
+    		}else if(httpsURLConnection.getResponseCode() == 500) {
+    			/**
+    			 * 500 Internal Server Error 内部的な問題によってデータを返すことができない場合に返されます。
+    			 * ログレベル：fatal
+    			 * 
+    			 * 影響度：致命的
+    			 * 対処法：なし
+    			 */
+    			log.fatal(requestBodyEntity.getapikey() + ": " + "NHK HTTP Status Code 500 Internal Server Error: Data cannot be returned due to an internal problem");
+    			return ServiceResponse(ResponseCommon.E500);
+    		}else if(httpsURLConnection.getResponseCode() == 503) {
+    			/**
+    			 * 503 Service Unavailable 内部的な問題によってデータを返すことができない場合に返されます。
+    			 * ログレベル：fatal
+    			 * 
+    			 * 影響度：致命的
+    			 * 対処法：なし
+    			 */
+    			log.fatal(requestBodyEntity.getapikey() + ": " + "NHK HTTP Status Code 503 Service Unavailable: Data cannot be returned due to an internal problem");
+    			return ServiceResponse(ResponseCommon.E503);
+    		}
     		
     		 BufferedReader reader = new BufferedReader(new InputStreamReader(
     				 httpsURLConnection.getInputStream(), "utf8"));
