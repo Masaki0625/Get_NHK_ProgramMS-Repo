@@ -2038,7 +2038,7 @@ NowOnAir取得MS
 ```
 </details>
 
-NoOnAirMSレスポンスボディ  
+NowOnAirMSレスポンスボディ  
 <details><summary>レスポンスボディ</summary>
 
 ```
