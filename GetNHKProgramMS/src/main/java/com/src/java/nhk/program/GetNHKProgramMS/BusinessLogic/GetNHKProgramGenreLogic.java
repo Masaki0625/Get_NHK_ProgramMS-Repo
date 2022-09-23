@@ -33,10 +33,13 @@ import com.src.java.nhk.program.GetNHKProgramMS.Util.StringUtil;
 @RequestScoped
 public class GetNHKProgramGenreLogic {
 	
+	//StringUtilクラスをインスタンス化
 	StringUtil stringUtil = new StringUtil();
 	
+	//ResponseDetailsクラスをインスタンス化
 	ResponseDetails responseDetails = new ResponseDetails();
 	
+	//ResponseEntityクラスをインスタンス化
 	ResponseEntity responseEntity = new ResponseEntity();
 	
 	private static Logger log;
@@ -141,7 +144,14 @@ public class GetNHKProgramGenreLogic {
 	 * @param requestBodyEntity：入力オブジェクトの格納用
 	 * @return
 	 * 実行成功：200 OK
-	 * 実行失敗：500 INTERNA+_SERVER_ERROR
+	 * 実行失敗：
+	 * 304 NOT_MODIFIED
+	 * 400 BAD_REQUEST
+	 * 401 UNAUTHORIZED
+	 * 403 FORBIDDEN
+	 * 404 NOT_FOUND
+	 * 500 INTERNA+_SERVER_ERROR
+	 * 503 SERVICE_UNAVAILABLE
 	 * 
 	 *  説明
 	 *  NHKの番組ジャンル取得APIへ接続し入力されたJSONパラメータ値をリクエストURLの各値へ代入し、リクエスト。
@@ -157,6 +167,7 @@ public class GetNHKProgramGenreLogic {
 			httpsURLConnection.setRequestMethod("GET");
 			httpsURLConnection.setDoInput(true);
 			httpsURLConnection.setDoOutput(true);
+			httpsURLConnection.setConnectTimeout(12000);
 			
 			/**
 			 * public interface TrustManager
@@ -269,7 +280,7 @@ public class GetNHKProgramGenreLogic {
              try {
             	 responseEntity = mapper.readValue(sb.toString(), ResponseEntity.class);
                } catch (JsonProcessingException jsonProcessingException) {
-                 log.error(jsonProcessingException.getStackTrace());
+                 log.error(jsonProcessingException);
                  return ServiceResponse(ResponseCommon.E500);
                }
              
@@ -278,7 +289,7 @@ public class GetNHKProgramGenreLogic {
              //コネクション切断
              httpsURLConnection.disconnect();
 		}catch(Exception exception) {
-			log.error(exception.getStackTrace());
+			log.error(exception);
 			return ServiceResponse(ResponseCommon.E500);
 		}
 		
